@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 const getCoordinatesList = (width, height) => {
   const xs = Array.from(Array(height).keys())
   const ys = Array.from(Array(width).keys())
@@ -15,17 +17,15 @@ const getRGBA = (x, y, imageData) => {
 }
 
 const getDistance = (source, rgbaSource, dest, rgbaDest) => {
-  if (!usePixel(...dest, ...rgbaDest)) {
-    return null
-  }
   const sourceLum = rgbaSource[0] + rgbaSource[1] + rgbaSource[2]
   const destLum = rgbaDest[0] + rgbaDest[1] + rgbaDest[2]
   return Math.abs(destLum - sourceLum) + 1
 }
 
-const getNeighborDistances = (pixel, imageData) => {
+const getEdges = (pixel, imageData, vertexMap) => {
   const [x, y] = pixel
   const rgba = getRGBA(...pixel, imageData)
+
   const neighbors = [
     [x - 1, y - 1],
     [x - 1, y],
@@ -36,11 +36,12 @@ const getNeighborDistances = (pixel, imageData) => {
     [x + 1, y],
     [x + 1, y + 1],
   ]
-
-  return neighbors.map(neighbor => {
+  neighbors.filter(neighbor => vertexMap[neighbor])
+  const neighborDistances = neighbors.map(neighbor => {
     const rgbaDest = getRGBA(...neighbor, imageData)
-    return getDistance(pixel, rgba, neighbor, rgbaDest)
+    return [vertexMap[neighbor], getDistance(pixel, rgba, neighbor, rgbaDest)]
   })
+  return _.fromPairs(neighborDistances)
 }
 
 const convertImageToGraph = async imageData => {
@@ -52,11 +53,10 @@ const convertImageToGraph = async imageData => {
     return usePixel(x, y, r, g, b, a)
   })
 
-  const neighborDistances = vertices.map(pixel =>
-    getNeighborDistances(pixel, imageData),
-  )
+  const vertexMap = _.fromPairs(vertices.map((vertex, i) => [vertex, i]))
+  const edges = vertices.map(pixel => getEdges(pixel, imageData, vertexMap))
 
-  return { vertices, neighborDistances }
+  return { vertices, edges }
 }
 
 export { convertImageToGraph }
