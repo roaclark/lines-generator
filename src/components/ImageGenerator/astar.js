@@ -3,15 +3,15 @@ import PriorityQueue from 'js-priority-queue'
 // TODO implement heuristic
 const heuristic = () => 0
 
-const comparator = (a, b) => a.expectedDistance - b.expectedDistance
+const comparator = (a, b) => a.expectedCost - b.expectedCost
 
 export default async (startIndex, goalIndex, { vertices, edges }) => {
   const parents = {}
   const pq = new PriorityQueue({ comparator })
   pq.queue({
     node: startIndex,
-    expectedDistance: heuristic(startIndex),
-    distance: 0,
+    expectedCost: heuristic(startIndex),
+    cost: 0,
     parent: null,
   })
 
@@ -35,11 +35,11 @@ export default async (startIndex, goalIndex, { vertices, edges }) => {
 
       const currEdges = edges[node]
       for (let i in currEdges) {
-        const distance = current.distance + currEdges[i]
+        const cost = current.cost + currEdges[i]
         pq.queue({
           node: i,
-          expectedDistance: distance + heuristic(i),
-          distance,
+          expectedCost: cost + heuristic(i),
+          cost,
           parent: node,
         })
       }

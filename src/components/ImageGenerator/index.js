@@ -12,6 +12,19 @@ export default class ImageGenerator extends Component {
   state = { processingImage: false }
   graph = null
 
+  drawPath = path => {
+    const canvas = this.refs.canvas
+    const ctx = canvas.getContext('2d')
+    const { vertices } = this.graph
+
+    path.map(vertex => {
+      const [x, y] = vertices[vertex]
+      ctx.fillRect(y, x, 1, 1)
+    })
+
+    return 0
+  }
+
   processImageData = imageData => {
     if (!imageData) {
       return
@@ -28,7 +41,7 @@ export default class ImageGenerator extends Component {
         return graph
       })
       .then(graph => astar('0', '44999', graph))
-      .then(console.log)
+      .then(this.drawPath)
   }
 
   componentDidMount() {

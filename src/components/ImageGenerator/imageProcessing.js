@@ -16,7 +16,7 @@ const getRGBA = (x, y, imageData) => {
   return rgba
 }
 
-const getDistance = (source, rgbaSource, dest, rgbaDest) => {
+const getCost = (source, rgbaSource, dest, rgbaDest) => {
   const destLum = rgbaDest[0] + rgbaDest[1] + rgbaDest[2]
   return destLum
 }
@@ -35,11 +35,11 @@ const getEdges = (pixel, imageData, vertexMap) => {
     [x + 1, y],
     [x + 1, y + 1],
   ].filter(neighbor => neighbor in vertexMap)
-  const neighborDistances = neighbors.map(neighbor => {
+  const neighborCosts = neighbors.map(neighbor => {
     const rgbaDest = getRGBA(...neighbor, imageData)
-    return [vertexMap[neighbor], getDistance(pixel, rgba, neighbor, rgbaDest)]
+    return [vertexMap[neighbor], getCost(pixel, rgba, neighbor, rgbaDest)]
   })
-  return _.fromPairs(neighborDistances)
+  return _.fromPairs(neighborCosts)
 }
 
 const convertImageToGraph = async imageData => {
