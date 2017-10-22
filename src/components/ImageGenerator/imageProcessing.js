@@ -35,8 +35,7 @@ const getEdges = (pixel, imageData, vertexMap) => {
     [x + 1, y - 1],
     [x + 1, y],
     [x + 1, y + 1],
-  ]
-  neighbors.filter(neighbor => vertexMap[neighbor])
+  ].filter(neighbor => neighbor in vertexMap)
   const neighborDistances = neighbors.map(neighbor => {
     const rgbaDest = getRGBA(...neighbor, imageData)
     return [vertexMap[neighbor], getDistance(pixel, rgba, neighbor, rgbaDest)]
