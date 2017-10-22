@@ -14,15 +14,49 @@ const getRGBA = (x, y, imageData) => {
   return rgba
 }
 
+const getDistance = (source, rgbaSource, dest, rgbaDest) => {
+  if (!usePixel(...dest, ...rgbaDest)) {
+    return null
+  }
+  const sourceLum = rgbaSource[0] + rgbaSource[1] + rgbaSource[2]
+  const destLum = rgbaDest[0] + rgbaDest[1] + rgbaDest[2]
+  return Math.abs(destLum - sourceLum) + 1
+}
+
+const getNeighborDistances = (pixel, imageData) => {
+  const [x, y] = pixel
+  const rgba = getRGBA(...pixel, imageData)
+  const neighbors = [
+    [x - 1, y - 1],
+    [x - 1, y],
+    [x - 1, y + 1],
+    [x, y - 1],
+    [x, y + 1],
+    [x + 1, y - 1],
+    [x + 1, y],
+    [x + 1, y + 1],
+  ]
+
+  return neighbors.map(neighbor => {
+    const rgbaDest = getRGBA(...neighbor, imageData)
+    return getDistance(pixel, rgba, neighbor, rgbaDest)
+  })
+}
+
 const convertImageToGraph = async imageData => {
   const vertices = getCoordinatesList(
     imageData.width,
     imageData.height,
-  ).filter(pixel => {
-    const [r, g, b, a] = getRGBA(pixel[0], pixel[1], imageData)
-    return usePixel(pixel[0], pixel[1], r, g, b, a)
+  ).filter(([x, y]) => {
+    const [r, g, b, a] = getRGBA(x, y, imageData)
+    return usePixel(x, y, r, g, b, a)
   })
-  return vertices
+
+  const neighborDistances = vertices.map(pixel =>
+    getNeighborDistances(pixel, imageData),
+  )
+
+  return { vertices, neighborDistances }
 }
 
 export { convertImageToGraph }
