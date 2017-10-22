@@ -26,7 +26,7 @@ export default async (startIndex, goalIndex, { vertices, edges }) => {
       if (node === goalIndex) {
         const path = [node]
         let step = node
-        while (parents[step] != step) {
+        while (parents[step] !== step) {
           path.push(parents[step])
           step = parents[step]
         }
