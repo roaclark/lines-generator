@@ -27,7 +27,7 @@ export default class ImageGenerator extends Component {
         this.setState({ processingImage: false })
         return graph
       })
-      .then(graph => astar(0, 44999, graph))
+      .then(graph => astar('0', '44999', graph))
       .then(console.log)
   }
 

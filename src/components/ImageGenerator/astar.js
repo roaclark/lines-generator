@@ -17,24 +17,30 @@ export default async (startIndex, goalIndex, { vertices, edges }) => {
 
   while (pq.length) {
     const current = pq.dequeue()
+    const node = current.node
 
     // Unvisited iff parent is not set
-    if (!parents[current.node]) {
-      parents[current.node] = current.parent
+    if (!parents[node]) {
+      parents[node] = current.parent
 
-      if (parseInt(current.node, 10) === goalIndex) {
-        // TODO reconstruct path
-        return 'success'
+      if (node === goalIndex) {
+        const path = [node]
+        let step = node
+        while (parents[step]) {
+          path.push(parents[step])
+          step = parents[step]
+        }
+        return path
       }
 
-      const currEdges = edges[current.node]
+      const currEdges = edges[node]
       for (let i in currEdges) {
         const distance = current.distance + currEdges[i]
         pq.queue({
           node: i,
           expectedDistance: distance + heuristic(i),
           distance,
-          parent: current.node,
+          parent: node,
         })
       }
     }
