@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { convertImageToGraph } from './imageProcessing'
+import astar from './astar'
 
 export default class ImageGenerator extends Component {
   static propTypes = {
@@ -9,7 +10,7 @@ export default class ImageGenerator extends Component {
   }
 
   state = { processingImage: false }
-  floydWarshallDistances = null
+  graph = null
 
   processImageData = imageData => {
     if (!imageData) {
@@ -24,7 +25,10 @@ export default class ImageGenerator extends Component {
       .then(graph => {
         this.graph = graph
         this.setState({ processingImage: false })
+        return graph
       })
+      .then(graph => astar(0, 44999, graph))
+      .then(console.log)
   }
 
   componentDidMount() {
