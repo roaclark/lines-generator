@@ -12,7 +12,7 @@ export default async (startIndex, goalIndex, { vertices, edges }) => {
     node: startIndex,
     expectedCost: heuristic(startIndex),
     cost: 0,
-    parent: null,
+    parent: startIndex,
   })
 
   while (pq.length) {
@@ -26,7 +26,7 @@ export default async (startIndex, goalIndex, { vertices, edges }) => {
       if (node === goalIndex) {
         const path = [node]
         let step = node
-        while (parents[step]) {
+        while (parents[step] != step) {
           path.push(parents[step])
           step = parents[step]
         }
