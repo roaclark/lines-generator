@@ -7,7 +7,7 @@ const getCoordinatesList = (width, height) => {
 }
 
 const usePixel = (x, y, r, g, b, a) => {
-  return a > 0
+  return true
 }
 
 const getRGBA = (x, y, imageData) => {
@@ -17,9 +17,8 @@ const getRGBA = (x, y, imageData) => {
 }
 
 const getDistance = (source, rgbaSource, dest, rgbaDest) => {
-  const sourceLum = rgbaSource[0] + rgbaSource[1] + rgbaSource[2]
   const destLum = rgbaDest[0] + rgbaDest[1] + rgbaDest[2]
-  return Math.abs(destLum - sourceLum) + 1
+  return destLum
 }
 
 const getEdges = (pixel, imageData, vertexMap) => {

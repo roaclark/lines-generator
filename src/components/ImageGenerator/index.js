@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import floydWarshall from './floydWarshall'
 import { convertImageToGraph } from './imageProcessing'
 
 export default class ImageGenerator extends Component {
@@ -22,9 +21,8 @@ export default class ImageGenerator extends Component {
 
     this.setState({ processingImage: true })
     return convertImageToGraph(imageData)
-      .then(floydWarshall)
-      .then(distances => {
-        this.floydWarshallDistances = distances
+      .then(graph => {
+        this.graph = graph
         this.setState({ processingImage: false })
       })
   }
