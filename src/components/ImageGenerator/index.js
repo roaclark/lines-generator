@@ -22,9 +22,8 @@ export default class ImageGenerator extends Component {
     path.map(vertex => {
       const [x, y] = vertices[vertex]
       ctx.fillRect(y, x, 1, 1)
+      return vertex
     })
-
-    return 0
   }
 
   makePath = (start, end) => {
@@ -32,13 +31,7 @@ export default class ImageGenerator extends Component {
       start || choosePoint(this.graph, this.props.imageData),
       end || choosePoint(this.graph, this.props.imageData),
       this.graph,
-    )
-      .then(this.drawPath)
-      .catch(err => {
-        console.log('caught')
-        console.log(start)
-        console.log(end)
-      })
+    ).then(this.drawPath)
   }
 
   processImageData = imageData => {
@@ -84,8 +77,9 @@ export default class ImageGenerator extends Component {
         ) : (
           <form onSubmit={this.handleSubmit}>
             <input
+              className="numberInput"
               type="number"
-              max="50"
+              max="200"
               value={this.state.numPaths}
               onChange={this.handleChange}
             />

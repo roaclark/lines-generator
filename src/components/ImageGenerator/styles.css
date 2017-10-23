@@ -8,3 +8,10 @@
   color: white;
   font-size: 18px;
 }
+
+.numberInput {
+  font-size: 18px;
+  padding: 5px;
+  max-width: 3em;
+  margin: 10px;
+}

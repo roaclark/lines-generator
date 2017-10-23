@@ -26,14 +26,15 @@ export default class ImageViewer extends Component {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    const callback = this.props.imageDataCallback
     const img = new Image()
     img.src = imgSrc
 
-    img.onload = function() {
+    img.onload = () => {
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
-      if (callback) {
-        callback(ctx.getImageData(0, 0, canvas.width, canvas.height))
+      if (this.props.imageDataCallback) {
+        this.props.imageDataCallback(
+          ctx.getImageData(0, 0, canvas.width, canvas.height),
+        )
       }
     }
   }
