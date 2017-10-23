@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import './styles.css'
 import { convertImageToGraph, choosePoint } from './imageProcessing'
 import astar from './astar'
 
@@ -68,12 +69,15 @@ export default class ImageGenerator extends Component {
   render() {
     return (
       <div>
-        <canvas ref="canvas" />
         {this.state.processingImage ? (
           <p>Processing image...</p>
         ) : (
-          <button onClick={() => this.makePath()}>Generate Line</button>
+          <div className="button" onClick={() => this.makePath()}>
+            Generate Line
+          </div>
         )}
+        <br />
+        <canvas ref="canvas" />
       </div>
     )
   }
