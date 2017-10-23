@@ -8,12 +8,27 @@ export default class ImageViewer extends Component {
     imageDataCallback: PropTypes.func,
   }
 
-  componentDidMount() {
+  handleFile = e => {
+    const reader = new FileReader()
+    const file = e.target.files[0]
+
+    reader.onload = upload => {
+      this.updateCanvas(upload.target.result)
+    }
+
+    reader.readAsDataURL(file)
+  }
+
+  updateCanvas = imgSrc => {
     const canvas = this.refs.canvas
-    const callback = this.props.imageDataCallback
     const ctx = canvas.getContext('2d')
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    const callback = this.props.imageDataCallback
     const img = new Image()
-    img.src = logo
+    img.src = imgSrc
+
     img.onload = function() {
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
       if (callback) {
@@ -22,7 +37,17 @@ export default class ImageViewer extends Component {
     }
   }
 
+  componentDidMount() {
+    this.updateCanvas(logo)
+  }
+
   render() {
-    return <canvas ref="canvas" />
+    return (
+      <div>
+        <canvas ref="canvas" />
+        <br />
+        <input type="file" onChange={this.handleFile} accept="image/*" />
+      </div>
+    )
   }
 }
