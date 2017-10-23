@@ -20,7 +20,7 @@ const getCost = (source, rgbaSource, dest, rgbaDest) => {
   const destLum = rgbaDest[0] + rgbaDest[1] + rgbaDest[2]
   const white = 255 * 3
   const alpha = rgbaDest[3]
-  const weighted = (white * (255 - alpha) + destLum * alpha)
+  const weighted = white * (255 - alpha) + destLum * alpha
   return weighted
 }
 
@@ -60,4 +60,8 @@ const convertImageToGraph = async imageData => {
   return { vertices, edges }
 }
 
-export { convertImageToGraph }
+const choosePoint = ({ vertices }, imageData) => {
+  return _.random(45000).toString()
+}
+
+export { convertImageToGraph, choosePoint }

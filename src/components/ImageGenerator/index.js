@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { convertImageToGraph } from './imageProcessing'
+import { convertImageToGraph, choosePoint } from './imageProcessing'
 import astar from './astar'
 
 export default class ImageGenerator extends Component {
@@ -25,23 +25,36 @@ export default class ImageGenerator extends Component {
     return 0
   }
 
+  makePath = (start, end) => {
+    return astar(
+      start || choosePoint(this.graph, this.props.imageData),
+      end || choosePoint(this.graph, this.props.imageData),
+      this.graph,
+    )
+      .then(this.drawPath)
+      .catch(err => {
+        console.log('caught')
+        console.log(start)
+        console.log(end)
+      })
+  }
+
   processImageData = imageData => {
     if (!imageData) {
       return
     }
 
-    const ctx = this.refs.canvas.getContext('2d')
-    ctx.putImageData(imageData, 0, 0)
+    const canvas = this.refs.canvas
+    const ctx = canvas.getContext('2d')
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    // ctx.putImageData(imageData, 0, 0)
 
     this.setState({ processingImage: true })
-    return convertImageToGraph(imageData)
-      .then(graph => {
-        this.graph = graph
-        this.setState({ processingImage: false })
-        return graph
-      })
-      .then(graph => astar('0', '44999', graph))
-      .then(this.drawPath)
+    return convertImageToGraph(imageData).then(graph => {
+      this.graph = graph
+      this.setState({ processingImage: false })
+      return graph
+    })
   }
 
   componentDidMount() {
@@ -56,7 +69,11 @@ export default class ImageGenerator extends Component {
     return (
       <div>
         <canvas ref="canvas" />
-        {this.state.processingImage && <p>Processing image...</p>}
+        {this.state.processingImage ? (
+          <p>Processing image...</p>
+        ) : (
+          <button onClick={() => this.makePath()}>Generate Line</button>
+        )}
       </div>
     )
   }

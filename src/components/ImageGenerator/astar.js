@@ -5,7 +5,7 @@ const heuristic = () => 0
 
 const comparator = (a, b) => a.expectedCost - b.expectedCost
 
-export default async (startIndex, goalIndex, { vertices, edges }) => {
+export default async (startIndex, goalIndex, { vertices, edges }, silent=false) => {
   const parents = {}
   const pq = new PriorityQueue({ comparator })
   pq.queue({
@@ -47,5 +47,8 @@ export default async (startIndex, goalIndex, { vertices, edges }) => {
   }
 
   // Failure case
-  return null
+  if (silent) {
+    return null
+  }
+  throw new Error('Path not found');
 }
