@@ -57,11 +57,25 @@ const convertImageToGraph = async imageData => {
   const vertexMap = _.fromPairs(vertices.map((vertex, i) => [vertex, i]))
   const edges = vertices.map(pixel => getEdges(pixel, imageData, vertexMap))
 
-  return { vertices, edges }
+  return { vertices, edges, vertexMap }
+}
+
+const chooseClosePoint = (
+  { vertices, vertexMap },
+  imageData,
+  startPoint,
+  dist = 50,
+) => {
+  const vertex = vertices[startPoint]
+  vertex[0] += _.random(-dist, dist)
+  vertex[1] += _.random(-dist, dist)
+  vertex[0] = _.clamp(vertex[0], 0, imageData.height - 1)
+  vertex[1] = _.clamp(vertex[1], 0, imageData.width - 1)
+  return vertexMap[vertex].toString()
 }
 
 const choosePoint = ({ vertices }, imageData) => {
-  return _.random(45000).toString()
+  return _.random(imageData.width * imageData.height).toString()
 }
 
-export { convertImageToGraph, choosePoint }
+export { convertImageToGraph, choosePoint, chooseClosePoint }

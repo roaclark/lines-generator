@@ -3,7 +3,11 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import './styles.css'
-import { convertImageToGraph, choosePoint } from './imageProcessing'
+import {
+  convertImageToGraph,
+  choosePoint,
+  chooseClosePoint,
+} from './imageProcessing'
 import astar from './astar'
 
 export default class ImageGenerator extends Component {
@@ -27,11 +31,9 @@ export default class ImageGenerator extends Component {
   }
 
   makePath = (start, end) => {
-    return astar(
-      start || choosePoint(this.graph, this.props.imageData),
-      end || choosePoint(this.graph, this.props.imageData),
-      this.graph,
-    ).then(this.drawPath)
+    start = start || choosePoint(this.graph, this.props.imageData)
+    end = end || chooseClosePoint(this.graph, this.props.imageData, start, 150)
+    return astar(start, end, this.graph).then(this.drawPath)
   }
 
   processImageData = imageData => {
@@ -57,8 +59,8 @@ export default class ImageGenerator extends Component {
   }
 
   handleSubmit = e => {
-    _.times(this.state.numPaths, () => this.makePath())
     e.preventDefault()
+    _.times(this.state.numPaths, () => this.makePath())
   }
 
   componentDidMount() {
