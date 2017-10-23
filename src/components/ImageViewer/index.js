@@ -48,7 +48,7 @@ export default class ImageViewer extends Component {
         <label htmlFor="rawFileInput" className="uploadButton">
           Upload an image
         </label>
-        <div>
+        <div className="uploadWrapper">
           <input
             id="rawFileInput"
             type="file"
