@@ -1,23 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import ImageUploader from '../ImageUploader'
+
 import logo from '../../logo.svg'
-import './styles.css'
 
 export default class ImageViewer extends Component {
   static propTypes = {
     imageDataCallback: PropTypes.func,
-  }
-
-  handleFile = e => {
-    const reader = new FileReader()
-    const file = e.target.files[0]
-
-    reader.onload = upload => {
-      this.updateCanvas(upload.target.result)
-    }
-
-    reader.readAsDataURL(file)
   }
 
   updateCanvas = imgSrc => {
@@ -46,17 +36,7 @@ export default class ImageViewer extends Component {
   render() {
     return (
       <div>
-        <div className="uploadWrapper">
-          <label htmlFor="rawFileInput" className="uploadButton">
-            Upload an image
-          </label>
-          <input
-            id="rawFileInput"
-            type="file"
-            onChange={this.handleFile}
-            accept="image/*"
-          />
-        </div>
+        <ImageUploader imageSrcCallback={this.updateCanvas} />
         <canvas ref="canvas" />
       </div>
     )
