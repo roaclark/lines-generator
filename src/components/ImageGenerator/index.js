@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 
-import './styles.css'
+import GeneratorForm from '../GeneratorForm'
+
 import {
   convertImageToGraph,
   choosePoint,
@@ -15,7 +16,7 @@ export default class ImageGenerator extends Component {
     imageData: PropTypes.instanceOf(ImageData),
   }
 
-  state = { processingImage: true, numPaths: 1 }
+  state = { processingImage: true }
   graph = null
 
   drawPath = path => {
@@ -41,12 +42,13 @@ export default class ImageGenerator extends Component {
       return
     }
 
+    this.setState({ processingImage: true })
+
     const canvas = this.refs.canvas
     const ctx = canvas.getContext('2d')
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     // ctx.putImageData(imageData, 0, 0)
 
-    this.setState({ processingImage: true })
     return convertImageToGraph(imageData).then(graph => {
       this.graph = graph
       this.setState({ processingImage: false })
@@ -54,13 +56,8 @@ export default class ImageGenerator extends Component {
     })
   }
 
-  handleChange = e => {
-    this.setState({ numPaths: e.target.value })
-  }
-
-  handleSubmit = e => {
-    e.preventDefault()
-    _.times(this.state.numPaths, () => this.makePath())
+  handleSubmit = ({ numPaths }) => {
+    _.times(numPaths, () => this.makePath())
   }
 
   componentDidMount() {
@@ -77,16 +74,7 @@ export default class ImageGenerator extends Component {
         {this.state.processingImage ? (
           <p>Processing image...</p>
         ) : (
-          <form onSubmit={this.handleSubmit}>
-            <input
-              className="numberInput"
-              type="number"
-              max="200"
-              value={this.state.numPaths}
-              onChange={this.handleChange}
-            />
-            <input type="submit" className="button" value="Generate Lines" />
-          </form>
+          <GeneratorForm submitData={this.handleSubmit} />
         )}
         <br />
         <canvas ref="canvas" />
