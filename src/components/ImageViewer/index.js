@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import logo from '../../logo.svg'
+import './styles.css'
 
 export default class ImageViewer extends Component {
   static propTypes = {
@@ -44,9 +45,18 @@ export default class ImageViewer extends Component {
   render() {
     return (
       <div>
+        <label htmlFor="rawFileInput" className="uploadButton">
+          Upload an image
+        </label>
+        <div>
+          <input
+            id="rawFileInput"
+            type="file"
+            onChange={this.handleFile}
+            accept="image/*"
+          />
+        </div>
         <canvas ref="canvas" />
-        <br />
-        <input type="file" onChange={this.handleFile} accept="image/*" />
       </div>
     )
   }
