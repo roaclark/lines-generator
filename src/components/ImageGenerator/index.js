@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import _ from 'lodash'
 
 import './styles.css'
 import { convertImageToGraph, choosePoint } from './imageProcessing'
@@ -10,7 +11,7 @@ export default class ImageGenerator extends Component {
     imageData: PropTypes.instanceOf(ImageData),
   }
 
-  state = { processingImage: false }
+  state = { processingImage: true, numPaths: 1 }
   graph = null
 
   drawPath = path => {
@@ -58,6 +59,15 @@ export default class ImageGenerator extends Component {
     })
   }
 
+  handleChange = e => {
+    this.setState({ numPaths: e.target.value })
+  }
+
+  handleSubmit = e => {
+    _.times(this.state.numPaths, () => this.makePath())
+    e.preventDefault()
+  }
+
   componentDidMount() {
     this.processImageData(this.props.imageData)
   }
@@ -72,9 +82,15 @@ export default class ImageGenerator extends Component {
         {this.state.processingImage ? (
           <p>Processing image...</p>
         ) : (
-          <div className="button" onClick={() => this.makePath()}>
-            Generate Line
-          </div>
+          <form onSubmit={this.handleSubmit}>
+            <input
+              type="number"
+              max="50"
+              value={this.state.numPaths}
+              onChange={this.handleChange}
+            />
+            <input type="submit" className="button" value="Generate Lines" />
+          </form>
         )}
         <br />
         <canvas ref="canvas" />

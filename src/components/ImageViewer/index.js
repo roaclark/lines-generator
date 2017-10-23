@@ -45,10 +45,10 @@ export default class ImageViewer extends Component {
   render() {
     return (
       <div>
-        <label htmlFor="rawFileInput" className="uploadButton">
-          Upload an image
-        </label>
         <div className="uploadWrapper">
+          <label htmlFor="rawFileInput" className="uploadButton">
+            Upload an image
+          </label>
           <input
             id="rawFileInput"
             type="file"

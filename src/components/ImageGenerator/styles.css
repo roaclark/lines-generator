@@ -2,6 +2,7 @@
   display: inline-block;
   padding: 10px 15px;
   border-radius: 10px;
+  border-style: none;
   cursor: pointer;
   background: steelblue;
   color: white;
