@@ -11,8 +11,8 @@ class App extends Component {
     imgSrc: logo,
   }
 
-  uploadImage = imgSrc => {
-    this.setState({ imgSrc })
+  uploadImage = (imgSrc, { width, height }) => {
+    this.setState({ imgSrc, width, height })
   }
 
   setImageData = imageData => {
@@ -20,17 +20,21 @@ class App extends Component {
   }
 
   render() {
+    const { width, height, imgSrc, imageData } = this.state
+
     return (
       <div className="app">
         <h2>Original Image</h2>
         <ImageUploader imageSrcCallback={this.uploadImage} />
         <ImageViewer
           className="viewer"
-          imgSrc={this.state.imgSrc}
+          imgSrc={imgSrc}
+          width={width}
+          height={height}
           imageDataCallback={this.setImageData}
         />
         <h2>New Image</h2>
-        <ImageGenerator className="viewer" imageData={this.state.imageData} />
+        <ImageGenerator className="viewer" imageData={imageData} />
       </div>
     )
   }
