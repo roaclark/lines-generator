@@ -8,12 +8,30 @@ export default class ImageUploader extends Component {
     imageSrcCallback: PropTypes.func.isRequired,
   }
 
+  state = {
+    width: 0,
+    height: 0,
+  }
+
+  changeWidth = e => {
+    this.setState({ width: e.target.value })
+  }
+
+  changeHeight = e => {
+    this.setState({ height: e.target.value })
+  }
+
   handleFile = e => {
+    const { width, height } = this.state
+
     const reader = new FileReader()
     const file = e.target.files[0]
 
     reader.onload = upload => {
-      this.props.imageSrcCallback(upload.target.result)
+      this.props.imageSrcCallback(upload.target.result, {
+        width,
+        height,
+      })
     }
 
     reader.readAsDataURL(file)
@@ -22,6 +40,28 @@ export default class ImageUploader extends Component {
   render() {
     return (
       <div className="uploadWrapper">
+        <label htmlFor="widthInput">Width</label>
+        <input
+          id="widthInput"
+          className="numberInput"
+          type="number"
+          min="0"
+          max="1000"
+          value={this.state.width}
+          onChange={this.changeWidth}
+        />
+        <br />
+        <label htmlFor="heightInput">Height</label>
+        <input
+          id="heightInput"
+          className="numberInput"
+          type="number"
+          min="0"
+          max="1000"
+          value={this.state.height}
+          onChange={this.changeHeight}
+        />
+        <br />
         <label htmlFor="rawFileInput" className="uploadButton">
           Upload an image
         </label>
