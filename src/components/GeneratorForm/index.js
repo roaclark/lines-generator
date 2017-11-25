@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import './styles.css'
+import Button from '../Button'
 
 export default class ImageGenerator extends Component {
   static propTypes = {
@@ -31,7 +32,7 @@ export default class ImageGenerator extends Component {
           value={this.state.numPaths}
           onChange={this.handleChange}
         />
-        <input type="submit" className="button" value="Generate Lines" />
+        <Button type="submit" value="Generate Lines" />
       </form>
     )
   }
