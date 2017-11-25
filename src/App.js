@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import './App.css'
+import 'App.css'
 
-import ImageViewer from './components/ImageViewer'
-import ImageGenerator from './components/ImageGenerator'
-import ImageUploader from './components/ImageUploader'
-import logo from './logo.svg'
+import ImageViewer from 'components/ImageViewer'
+import ImageGenerator from 'components/ImageGenerator'
+import ImageUploader from 'components/ImageUploader'
+import logo from 'logo.svg'
 
 class App extends Component {
   state = {

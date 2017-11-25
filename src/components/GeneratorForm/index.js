@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import './styles.css'
-import Button from '../Button'
+import Button from 'components/Button'
 
 export default class ImageGenerator extends Component {
   static propTypes = {
