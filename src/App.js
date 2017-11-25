@@ -34,7 +34,12 @@ class App extends Component {
           imageDataCallback={this.setImageData}
         />
         <h2>New Image</h2>
-        <ImageGenerator className="viewer" imageData={imageData} />
+        <ImageGenerator
+          className="viewer"
+          imageData={imageData}
+          width={width}
+          height={height}
+        />
       </div>
     )
   }

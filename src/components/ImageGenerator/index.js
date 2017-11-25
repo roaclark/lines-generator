@@ -11,9 +11,14 @@ import {
 } from './imageProcessing'
 import astar from './astar'
 
+const DEFAULT_WIDTH = 300
+const DEFAULT_HEIGHT = 150
+
 export default class ImageGenerator extends Component {
   static propTypes = {
     imageData: PropTypes.instanceOf(ImageData),
+    width: PropTypes.number,
+    height: PropTypes.number,
   }
 
   state = { processingImage: true }
@@ -69,6 +74,15 @@ export default class ImageGenerator extends Component {
   }
 
   render() {
+    let { width, height } = this.props
+
+    if (width <= 0) {
+      width = DEFAULT_WIDTH
+    }
+    if (height <= 0) {
+      height = DEFAULT_HEIGHT
+    }
+
     return (
       <div>
         {this.state.processingImage ? (
@@ -77,7 +91,7 @@ export default class ImageGenerator extends Component {
           <GeneratorForm submitData={this.handleSubmit} />
         )}
         <br />
-        <canvas ref="canvas" />
+        <canvas ref="canvas" width={width} height={height} />
       </div>
     )
   }
