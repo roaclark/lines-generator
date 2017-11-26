@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-const DEFAULT_WIDTH = 300
-const DEFAULT_HEIGHT = 150
+import { getImageSize } from 'services/imageService'
 
 export default class ImageViewer extends Component {
   static propTypes = {
@@ -13,23 +12,11 @@ export default class ImageViewer extends Component {
   }
 
   updateCanvas = () => {
-    const { imgSrc, width, height, imageDataCallback } = this.props
+    const { imgSrc, imageDataCallback } = this.props
     const canvas = this.refs.canvas
 
     if (!imgSrc || !canvas) {
       return
-    }
-
-    if (width > 0) {
-      canvas.width = width
-    } else {
-      canvas.width = DEFAULT_WIDTH
-    }
-
-    if (height > 0) {
-      canvas.height = height
-    } else {
-      canvas.height = DEFAULT_HEIGHT
     }
 
     const ctx = canvas.getContext('2d')
@@ -39,6 +26,14 @@ export default class ImageViewer extends Component {
     img.src = imgSrc
 
     img.onload = () => {
+      const { width, height } = getImageSize(
+        img,
+        this.props.width,
+        this.props.height,
+      )
+      canvas.width = width
+      canvas.height = height
+
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
       if (imageDataCallback) {
         imageDataCallback(ctx.getImageData(0, 0, canvas.width, canvas.height))

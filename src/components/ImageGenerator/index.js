@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import GeneratorForm from 'components/GeneratorForm'
+import { getImageSize } from 'services/imageService'
 
 import {
   convertImageToGraph,
@@ -10,9 +11,6 @@ import {
   chooseClosePoint,
 } from './imageProcessing'
 import astar from './astar'
-
-const DEFAULT_WIDTH = 300
-const DEFAULT_HEIGHT = 150
 
 export default class ImageGenerator extends Component {
   static propTypes = {
@@ -74,14 +72,11 @@ export default class ImageGenerator extends Component {
   }
 
   render() {
-    let { width, height } = this.props
-
-    if (width <= 0) {
-      width = DEFAULT_WIDTH
-    }
-    if (height <= 0) {
-      height = DEFAULT_HEIGHT
-    }
+    const { width, height } = getImageSize(
+      this.props.imageData,
+      this.props.width,
+      this.props.height,
+    )
 
     return (
       <div>
