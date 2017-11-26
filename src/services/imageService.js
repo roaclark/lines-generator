@@ -6,15 +6,17 @@ export function getImageSize(image, width, height) {
     return { width, height }
   }
 
+  const ratio = image
+    ? image.width / image.height
+    : DEFAULT_WIDTH / DEFAULT_HEIGHT
+
   if (width > 0) {
-    return { width, height: DEFAULT_HEIGHT }
+    return { width, height: width / ratio }
   }
+
   if (height > 0) {
-    return { width: DEFAULT_WIDTH, height }
+    return { width: height * ratio, height }
   }
 
   return { width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT }
-
-  // const imageWidth = img.width
-  // const imageHeight = img.height
 }
