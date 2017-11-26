@@ -9,8 +9,8 @@ export default class ImageUploader extends Component {
   }
 
   state = {
-    width: 0,
-    height: 0,
+    width: 100,
+    height: 100,
   }
 
   changeWidth = e => {
