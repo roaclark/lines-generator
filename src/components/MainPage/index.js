@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import 'App.css'
 
 import ImageViewer from 'components/ImageViewer'
 import ImageGenerator from 'components/ImageGenerator'
 import ImageUploader from 'components/ImageUploader'
 import logo from 'logo.svg'
 
-class App extends Component {
+import './styles.css'
+
+export default class MainPage extends Component {
   state = {
     imgSrc: logo,
   }
@@ -23,7 +24,7 @@ class App extends Component {
     const { width, height, imgSrc, imageData } = this.state
 
     return (
-      <div className="app">
+      <div className="page">
         <h2>Original Image</h2>
         <ImageUploader imageSrcCallback={this.uploadImage} />
         <ImageViewer
@@ -44,5 +45,3 @@ class App extends Component {
     )
   }
 }
-
-export default App
