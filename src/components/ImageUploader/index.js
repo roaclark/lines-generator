@@ -14,18 +14,22 @@ export default class ImageUploader extends Component {
   }
 
   changeWidth = e => {
-    this.setState({ width: e.target.value })
+    this.setState({ width: parseInt(e.target.value, 10) })
   }
 
   changeHeight = e => {
-    this.setState({ height: e.target.value })
+    this.setState({ height: parseInt(e.target.value, 10) })
   }
 
   handleFile = e => {
     const { width, height } = this.state
+    const file = e.target.files[0]
+
+    if (!file) {
+      return
+    }
 
     const reader = new FileReader()
-    const file = e.target.files[0]
 
     reader.onload = upload => {
       this.props.imageSrcCallback(upload.target.result, {
