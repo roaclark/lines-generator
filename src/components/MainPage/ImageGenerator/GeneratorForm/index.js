@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import './styles.css'
 import Button from 'components/Button'
 
-export default class ImageGenerator extends Component {
+export default class GeneratorForm extends Component {
   static propTypes = {
     submitData: PropTypes.func.isRequired,
   }
