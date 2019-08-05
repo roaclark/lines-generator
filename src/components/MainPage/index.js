@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 
 import logo from 'logo.svg'
 
+import ImageForm from './ImageForm'
 import ImageViewer from './ImageViewer'
 import ImageGenerator from './ImageGenerator'
-import ImageUploader from './ImageUploader'
 
 import './styles.css'
 
@@ -27,7 +27,7 @@ export default class MainPage extends Component {
     return (
       <div className="page">
         <h2>Original Image</h2>
-        <ImageUploader imageSrcCallback={this.uploadImage} />
+        <ImageForm imageSrcCallback={this.uploadImage} />
         <ImageViewer
           className="viewer"
           imgSrc={imgSrc}
