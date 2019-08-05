@@ -46,13 +46,12 @@ const getEdges = (pixel, imageData, vertexMap) => {
 }
 
 const convertImageToGraph = async imageData => {
-  const vertices = getCoordinatesList(
-    imageData.width,
-    imageData.height,
-  ).filter(([x, y]) => {
-    const [r, g, b, a] = getRGBA(x, y, imageData)
-    return usePixel(x, y, r, g, b, a)
-  })
+  const vertices = getCoordinatesList(imageData.width, imageData.height).filter(
+    ([x, y]) => {
+      const [r, g, b, a] = getRGBA(x, y, imageData)
+      return usePixel(x, y, r, g, b, a)
+    },
+  )
 
   const vertexMap = _.fromPairs(vertices.map((vertex, i) => [vertex, i]))
   const edges = vertices.map(pixel => getEdges(pixel, imageData, vertexMap))
