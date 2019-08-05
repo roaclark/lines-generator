@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 
-import ImageViewer from 'components/ImageViewer'
-import ImageGenerator from 'components/ImageGenerator'
-import ImageUploader from 'components/ImageUploader'
 import logo from 'logo.svg'
+
+import ImageViewer from './ImageViewer'
+import ImageGenerator from './ImageGenerator'
+import ImageUploader from './ImageUploader'
 
 import './styles.css'
 

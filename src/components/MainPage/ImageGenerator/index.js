@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 
-import GeneratorForm from 'components/GeneratorForm'
 import { getImageSize } from 'services/imageService'
+
+import GeneratorForm from './GeneratorForm'
 
 import {
   convertImageToGraph,
